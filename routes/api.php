@@ -10,7 +10,11 @@ Route::post('auth/login', [AuthController::class, 'loginUser']);
 
 Route::post('auth/register', [AuthController::class, 'registerUser']);
 
-Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\API\V1', 'middleware' => 'auth:sanctum'], function(){
+Route::group([
+    'prefix' => 'v1',
+    'namespace' => 'App\Http\Controllers\API\V1',
+    'middleware' => 'auth:sanctum'
+], function(){
     Route::apiResource('customers', CustomerController::class);
 
     Route::apiResource('invoices', InvoiceController::class);
