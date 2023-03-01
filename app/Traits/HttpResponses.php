@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 trait HttpResponses{
-    public static function success($message, $data, $code = 200): \Illuminate\Http\JsonResponse
+    public static function success($message, $data = null, $code = 200): \Illuminate\Http\JsonResponse
     {
         return response()->json([
             'status' => true,
