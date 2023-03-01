@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Traits\HttpResponses;
 
 
 class AuthController extends Controller
@@ -26,11 +27,8 @@ class AuthController extends Controller
             ]);
 
             if($isUserValidated->fails()){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Validation error!',
-                    'error' => $isUserValidated->errors()
-                ], 401);
+                return HttpResponses::error('Validation error!',
+                    $isUserValidated->errors(), 401);
             }
 
             $user = User::create([
@@ -39,21 +37,14 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password)
             ]);
 
-            return response()->json([
-                'status' => true,
-                'message' => 'User created successfully!',
-                'token' => $user->createToken('API-Token')->plainTextToken
-            ], 200);
+            return HttpResponses::success('User created successfully!',
+                $user->createToken('API-Token')->plainTextToken);
 
         }
         catch (\Throwable $throwable){
-            return response()->json([
-                'status' => false,
-                'message' => $throwable->getMessage(),
-            ], 500);
+            return HttpResponses::error('Error:',
+                $throwable->getMessage(), 500);
         }
-
-
     }
 
     /*
@@ -69,33 +60,23 @@ class AuthController extends Controller
             ]);
 
             if($isUserValidated->fails()){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Validation error!',
-                    'error' => $isUserValidated->errors()
-                ], 401);
+                return HttpResponses::error('Validation error!',
+                    $isUserValidated->errors(), 401);
             }
 
             if(!Auth::attempt($request->only(['email', 'password']))){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Email and password does not match with our records!',
-                ], 401);
+                return HttpResponses::error('Validation error!',
+                    'Email and password does not match with our records!', 401);
             }
 
             $user = User::where('email', $request->email)->first();
 
-            return response()->json([
-                'status' => true,
-                'message' => 'User logged in successfully!',
-                'token' => $user->createToken('API-Token')->plainTextToken
-            ], 200);
+            return HttpResponses::success('User logged in successfully!',
+                $user->createToken('API-Token')->plainTextToken);
         }
         catch (\Throwable $throwable){
-            return response()->json([
-                'status' => false,
-                'message' => $throwable->getMessage(),
-            ], 500);
+            return HttpResponses::error('Error:',
+                $throwable->getMessage(), 500);
         }
     }
 }
