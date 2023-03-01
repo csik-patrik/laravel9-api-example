@@ -4,6 +4,7 @@ use App\Http\Controllers\API\V1\CustomerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\V1\Auth\AuthController;
 use App\Http\Controllers\API\V1\InvoiceController;
+use \App\Http\Controllers\API\V1\FoodCategoryController;
 //use Illuminate\Http\Request;
 
 Route::post('auth/login', [AuthController::class, 'loginUser']);
@@ -18,6 +19,8 @@ Route::group([
     Route::apiResource('customers', CustomerController::class);
 
     Route::apiResource('invoices', InvoiceController::class);
+
+    Route::apiResource('food-categories', FoodCategoryController::class);
 
     Route::post('invoices/bulk', ['uses' => 'InvoiceController@bulkStore']);
 });
