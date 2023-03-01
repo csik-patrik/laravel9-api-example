@@ -3,19 +3,21 @@
 namespace App\Traits;
 
 trait HttpResponses{
-    protected function success($data, $message = null, $code = 200){
+    public static function success($message, $data, $code = 200): \Illuminate\Http\JsonResponse
+    {
         return response()->json([
-           'status' => 'Request was successful.',
+            'status' => true,
             'message' => $message,
             'data' => $data
         ], $code);
     }
 
-    protected function error($data, $message = null, $code){
+    public static function error($message, $error, $code): \Illuminate\Http\JsonResponse
+    {
         return response()->json([
-            'status' => 'Error has occurred!',
+            'status' => false,
             'message' => $message,
-            'data' => $data
+            'error' => $error
         ], $code);
     }
 }
