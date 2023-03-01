@@ -18,8 +18,8 @@ class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return CustomerCollection
      */
     public function index(Request $request)
     {
@@ -30,20 +30,20 @@ class CustomerController extends Controller
         $includeInvoices = $request->query('includeInvoices');
 
         $customers = Customer::where($filterItems);
-        
+
         if($includeInvoices){
-            $customers = $customers -> with('invoices'); 
+            $customers = $customers -> with('invoices');
         }
-        
+
         return new CustomerCollection($customers->paginate()->appends($request->query()));
-                                                  
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreCustomerRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param  StoreCustomerRequest  $request
+     * @return CustomerResource
      */
     public function store(StoreCustomerRequest $request)
     {
@@ -53,8 +53,8 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
+     * @param  Customer  $customer
+     * @return CustomerResource
      */
     public function show(Customer $customer)
     {
@@ -70,9 +70,8 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateCustomerRequest  $request
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
+     * @param  UpdateCustomerRequest $request
+     * @param  Customer  $customer
      */
     public function update(UpdateCustomerRequest $request, Customer $customer)
     {
@@ -82,8 +81,7 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
+     * @param  Customer  $customer
      */
     public function destroy(Customer $customer)
     {
