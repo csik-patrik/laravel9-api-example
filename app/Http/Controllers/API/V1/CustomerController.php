@@ -80,7 +80,6 @@ class CustomerController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
      * @param  Customer  $customer
      */
     public function destroy(Customer $customer)
